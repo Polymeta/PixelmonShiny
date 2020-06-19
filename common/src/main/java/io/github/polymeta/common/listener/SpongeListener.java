@@ -37,6 +37,7 @@ public class SpongeListener
                             {
                                 //type, name and lore match, so now we open GUI!
                                 PartyGUI.OpenInventoryOnPlayer(player);
+                                event.setCancelled(true);
                             }
                         });
                     }
