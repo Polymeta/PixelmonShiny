@@ -1,0 +1,7 @@
+rootProject.name = 'PixelmonShiny'
+
+include (
+        'common',
+        'reforged',
+        'generations'
+)

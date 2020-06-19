@@ -1,0 +1,75 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "http://repository.jboss.org/nexus/content/groups/public/"
+        }
+    }
+}
+
+plugins {
+    //id 'maven'
+    id 'com.github.johnrengelman.shadow' version '4.0.4'
+    id 'ninja.miserable.blossom' version '1.0.1'
+}
+
+group = 'io.github.polymeta'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = targetCompatibility = "1.8" // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
+
+//what does that do
+/*allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:deprecation"
+        }
+    }
+}*/
+
+subprojects {
+    apply plugin: 'java'
+    //apply plugin: 'maven'
+    apply plugin: 'com.github.johnrengelman.shadow'
+    apply plugin: 'ninja.miserable.blossom'
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    ext {
+        sponge = "7.2.0"
+    }
+
+    version = '1.0-SNAPSHOT'
+    group = 'io.github.polymeta'
+
+    repositories {
+        mavenCentral()
+        maven { url = 'https://jitpack.io' }
+    }
+    
+    dependencies {
+    }
+
+    blossom {
+        replaceToken '@version@', version
+    }
+}
+
+task copyJars(type: Copy) {
+    dependsOn subprojects.build
+    from subprojects.collect { it.tasks.withType(Jar) }
+    into "$buildDir/allJars"
+    exclude '*-all.jar'
+    exclude '*-sources.jar'
+    exclude 'common*.jar'
+    exclude 'reforged*.jar'
+    exclude 'generations*.jar'
+}
+
+build.dependsOn shadowJar
+build.dependsOn copyJars

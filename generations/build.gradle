@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+minecraft {
+    version = "1.12.2-14.23.5.2838"
+    runDir = "run"
+    mappings = "stable_39"
+    useDepAts = true
+    makeObfSourceJar = false
+}
+
+shadowJar {
+    archiveName = "PixelmonShiny-Generations-8.0.0-${project.version}.jar"
+    exclude 'pixelmon*.jar'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name 'sponge-repo'
+        url 'https://repo.spongepowered.org/maven'
+    }
+}
+
+dependencies {
+    compile project(':common')
+    shadow 'org.spongepowered:spongeapi:7.2.0'
+    compile fileTree(dir: 'libs', include: '*.jar')
+}
+
+reobf {
+    shadowJar {
+        mappingType = 'SEARGE'
+    }
+}

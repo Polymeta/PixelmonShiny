@@ -1,0 +1,10 @@
+repositories {
+    maven {
+        name 'sponge-repo'
+        url 'https://repo.spongepowered.org/maven'
+    }
+}
+
+dependencies {
+    shadow 'org.spongepowered:spongeapi:7.2.0'
+}
