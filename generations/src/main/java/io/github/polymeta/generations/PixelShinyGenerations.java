@@ -20,8 +20,8 @@ import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.text.Text;
 
-@Plugin(id = "pixelshiny_generations",
-        name = "PixelShiny Generations",
+@Plugin(id = "pixelmonshiny",
+        name = "PixelmonShiny Generations",
         description = "Turn your pokemon shiny with an item!",
         authors = {"Polymeta/BlackSpirit"},
         version = "@version@",
