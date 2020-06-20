@@ -24,7 +24,6 @@ compileJava {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'com.github.johnrengelman.shadow'
-    apply plugin: 'ninja.miserable.blossom'
 
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
@@ -43,10 +42,6 @@ subprojects {
     }
     
     dependencies {
-    }
-
-    blossom {
-        replaceToken '@version@', version
     }
 }
 
