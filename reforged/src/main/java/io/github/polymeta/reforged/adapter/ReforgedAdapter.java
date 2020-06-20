@@ -8,7 +8,9 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,9 +39,12 @@ public class ReforgedAdapter implements IPixelmonAdapter
     }
 
     @Override
-    public void toggleShinyInSlot(@NonNull Player player, int i)
+    public void toggleShinyInSlot(@NonNull Player player, ItemStackSnapshot clicked)
     {
         PlayerPartyStorage storage = Pixelmon.storageManager.getParty(player.getUniqueId());
-        storage.get(i).setShiny(!storage.get(i).isShiny());;
+        storage.getTeam().stream()
+                .filter(pokemon -> Text.of(pokemon.getSpecies().name).equals(clicked.get(Keys.DISPLAY_NAME).orElse(Text.EMPTY)))
+                .findFirst()
+                .ifPresent(pokemon -> pokemon.setShiny(!pokemon.isShiny()));
     }
 }

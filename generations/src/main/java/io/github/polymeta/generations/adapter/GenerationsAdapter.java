@@ -11,6 +11,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -41,10 +42,15 @@ public class GenerationsAdapter implements IPixelmonAdapter
     }
 
     @Override
-    public void toggleShinyInSlot(@NonNull Player player, int i)
+    public void toggleShinyInSlot(@NonNull Player player, ItemStackSnapshot clicked)
     {
         PlayerStorage storage = PixelmonStorage.pokeBallManager.getPlayerStorageFromUUID(player.getUniqueId()).orElseThrow(NullPointerException::new);
-        storage.partyPokemon[i].setBoolean(NbtKeys.SHINY, true);
-        storage.updateClient(storage.partyPokemon[i], false, EnumUpdateType.Texture);
+        storage.getTeam().stream()
+                .filter(nbtTagCompound -> nbtTagCompound.getString(NbtKeys.NAME).equalsIgnoreCase(clicked.get(Keys.DISPLAY_NAME).get().toPlain()))
+                .findFirst()
+                .ifPresent(nbtTagCompound -> {
+                    nbtTagCompound.setBoolean(NbtKeys.IS_SHINY, !nbtTagCompound.getBoolean(NbtKeys.IS_SHINY));
+                    storage.updateClient(nbtTagCompound, EnumUpdateType.Stats);
+                });
     }
 }
