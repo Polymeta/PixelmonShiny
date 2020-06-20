@@ -6,6 +6,7 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.text.Text;
@@ -24,6 +25,30 @@ public class SpongeListener
 
     @Listener
     public void onRightClick(InteractBlockEvent.Secondary event, @Root Player player)
+    {
+        player.getItemInHand(HandTypes.MAIN_HAND).ifPresent(itemStack ->
+        {
+            if(itemStack.getType().equals(cManager.getShinyItem().getType()))
+            {
+                itemStack.get(Keys.DISPLAY_NAME).ifPresent(text -> {
+                    if(TextSerializers.FORMATTING_CODE.serialize(text).equalsIgnoreCase(cManager.getConfig().itemName))
+                    {
+                        itemStack.get(Keys.ITEM_LORE).ifPresent(lore -> {
+                            if(this.isLoreSame(lore, cManager.getConfig().itemLore))
+                            {
+                                //type, name and lore match, so now we open GUI!
+                                PartyGUI.OpenInventoryOnPlayer(player);
+                                event.setCancelled(true);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    @Listener
+    public void onPlace(ChangeBlockEvent.Place event, @Root Player player)
     {
         player.getItemInHand(HandTypes.MAIN_HAND).ifPresent(itemStack ->
         {
