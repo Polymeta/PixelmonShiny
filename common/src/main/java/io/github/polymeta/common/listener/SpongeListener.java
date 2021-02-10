@@ -16,7 +16,7 @@ import java.util.List;
 
 public class SpongeListener
 {
-    private GeneralConfigManager cManager;
+    private final GeneralConfigManager cManager;
 
     public SpongeListener(GeneralConfigManager _configManager)
     {

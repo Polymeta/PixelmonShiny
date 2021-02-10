@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class GeneralConfigManager
 {
-    private ConfigurationLoader<CommentedConfigurationNode> loader;
+    private final ConfigurationLoader<CommentedConfigurationNode> loader;
     private ConfigurationNode node;
     private GeneralConfig config;
 
@@ -42,11 +42,12 @@ public class GeneralConfigManager
         else return this.config;
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     public boolean LoadConfig()
     {
         try {
             this.node = loader.load();
-            @SuppressWarnings("UnstableApiUsage") TypeToken<GeneralConfig> type = TypeToken.of(GeneralConfig.class);
+            TypeToken<GeneralConfig> type = TypeToken.of(GeneralConfig.class);
             this.config = node.getValue(type, new GeneralConfig());
             node.setValue(type, this.config);
             this.loader.save(node);

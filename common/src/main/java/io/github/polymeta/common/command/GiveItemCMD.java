@@ -1,7 +1,6 @@
 package io.github.polymeta.common.command;
 
 import io.github.polymeta.common.config.GeneralConfigManager;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -12,11 +11,10 @@ import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.transaction.InventoryTransactionResult;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.plugin.meta.util.NonnullByDefault;
 
 public class GiveItemCMD implements CommandExecutor 
 {
-    private GeneralConfigManager configManager;
+    private final GeneralConfigManager configManager;
 
     public GiveItemCMD(GeneralConfigManager configManager)
     {
@@ -24,8 +22,6 @@ public class GiveItemCMD implements CommandExecutor
     }
 
     @Override
-    @NonnullByDefault
-    @NonNull
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException 
     {
         Player player = args.<Player>getOne("player").orElseThrow(() -> new CommandException(Text.of(TextColors.RED, "Couldn't find player!")));
