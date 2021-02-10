@@ -61,6 +61,8 @@ public class PartyGUI
             //simple check -> we do nothing when we click border
             if(clicked.getType().equals(border.getType()))
                 return;
+            if(clicked.isEmpty())
+                return;
 
             //prevents sponge warning when closing inventory without delay
             Sponge.getScheduler().createTaskBuilder().delayTicks(3L).execute(() -> {

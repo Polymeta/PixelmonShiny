@@ -23,7 +23,9 @@ minecraft {
 
 shadowJar {
     archiveName = "PixelmonShiny-Reforged-8.1.2-${project.version}.jar"
-    exclude 'Pixelmon*.jar'
+    dependencies{
+        include(project(':common'))
+    }
 }
 
 repositories {
@@ -43,7 +45,7 @@ repositories {
 
 dependencies {
     compile project(':common')
-    shadow 'org.spongepowered:spongeapi:7.2.0'
+    compile 'org.spongepowered:spongeapi:7.2.0'
     compile 'reforged:server:8.1.2@Pixelmon-1.12.2-8.1.2-server.jar'
 }
 

@@ -24,7 +24,7 @@ import org.spongepowered.api.text.Text;
         name = "PixelmonShiny Generations",
         description = "Turn your pokemon shiny with an item!",
         authors = {"Polymeta/BlackSpirit"},
-        version = "1.0.0",
+        version = "1.0.1",
         dependencies = @Dependency(id = "pixelmon"))
 public class PixelShinyGenerations
 {
