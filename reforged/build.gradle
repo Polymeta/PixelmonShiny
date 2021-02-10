@@ -22,7 +22,7 @@ minecraft {
 }
 
 shadowJar {
-    archiveName = "PixelmonShiny-Reforged-8.0.2-${project.version}.jar"
+    archiveName = "PixelmonShiny-Reforged-8.1.2-${project.version}.jar"
     exclude 'Pixelmon*.jar'
 }
 
@@ -32,12 +32,19 @@ repositories {
         name 'sponge-repo'
         url 'https://repo.spongepowered.org/maven'
     }
+    ivy {
+        url "https://download.nodecdn.net/containers"
+        layout "pattern", {
+            artifact "/[organisation]/[module]/release/[revision]/[ext]"
+        }
+    }
+
 }
 
 dependencies {
     compile project(':common')
     shadow 'org.spongepowered:spongeapi:7.2.0'
-    compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'reforged:server:8.1.2@Pixelmon-1.12.2-8.1.2-server.jar'
 }
 
 reobf {
