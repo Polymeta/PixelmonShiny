@@ -7,7 +7,6 @@ import com.pixelmongenerations.core.storage.NbtKeys;
 import com.pixelmongenerations.core.storage.PixelmonStorage;
 import com.pixelmongenerations.core.storage.PlayerStorage;
 import io.github.polymeta.common.adapter.IPixelmonAdapter;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 public class GenerationsAdapter implements IPixelmonAdapter
 {
     @Override
-    public List<ItemStack> getPartyAsItem(@NonNull Player player)
+    public List<ItemStack> getPartyAsItem(Player player)
     {
         PlayerStorage storage = PixelmonStorage.pokeBallManager.getPlayerStorageFromUUID(player.getUniqueId()).orElseThrow(NullPointerException::new);
         return storage.getTeam().stream()
@@ -42,7 +41,7 @@ public class GenerationsAdapter implements IPixelmonAdapter
     }
 
     @Override
-    public void toggleShinyInSlot(@NonNull Player player, ItemStackSnapshot clicked)
+    public void toggleShinyInSlot(Player player, ItemStackSnapshot clicked)
     {
         PlayerStorage storage = PixelmonStorage.pokeBallManager.getPlayerStorageFromUUID(player.getUniqueId()).orElseThrow(NullPointerException::new);
         storage.getTeam().stream()

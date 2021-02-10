@@ -4,13 +4,11 @@ import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.items.ItemPixelmonSprite;
 import com.pixelmonmod.pixelmon.storage.PlayerPartyStorage;
 import io.github.polymeta.common.adapter.IPixelmonAdapter;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +17,7 @@ import java.util.stream.Collectors;
 public class ReforgedAdapter implements IPixelmonAdapter
 {
     @Override
-    public List<ItemStack> getPartyAsItem(@NonNull Player player)
+    public List<ItemStack> getPartyAsItem(Player player)
     {
         PlayerPartyStorage storage = Pixelmon.storageManager.getParty(player.getUniqueId());
         return storage.getTeam().stream()
@@ -39,7 +37,7 @@ public class ReforgedAdapter implements IPixelmonAdapter
     }
 
     @Override
-    public void toggleShinyInSlot(@NonNull Player player, ItemStackSnapshot clicked)
+    public void toggleShinyInSlot(Player player, ItemStackSnapshot clicked)
     {
         PlayerPartyStorage storage = Pixelmon.storageManager.getParty(player.getUniqueId());
         storage.getTeam().stream()
