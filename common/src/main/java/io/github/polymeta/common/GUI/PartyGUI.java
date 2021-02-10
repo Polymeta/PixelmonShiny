@@ -43,10 +43,7 @@ public class PartyGUI
         inventory = Inventory.builder()
                 .of(InventoryArchetypes.CHEST)
                 .property(InventoryTitle.PROPERTY_NAME, InventoryTitle.of(TextSerializers.FORMATTING_CODE.deserialize(_cMan.getConfig().guiTitle)))
-                .listener(ClickInventoryEvent.Shift.class, e -> e.setCancelled(true))
-                .listener(ClickInventoryEvent.Drag.class, e -> e.setCancelled(true))
-                .listener(ClickInventoryEvent.Drop.class, e -> e.setCancelled(true))
-                .listener(ClickInventoryEvent.Secondary.class, e-> e.setCancelled(true))
+                .listener(ClickInventoryEvent.class, e -> e.setCancelled(true))
                 .listener(ClickInventoryEvent.Primary.class, PartyGUI::fireClickEvent)
                 .build(plugin);
         placeBorder();
