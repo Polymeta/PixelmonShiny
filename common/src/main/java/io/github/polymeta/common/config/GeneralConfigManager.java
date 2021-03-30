@@ -58,10 +58,10 @@ public class GeneralConfigManager
         }
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "UnstableApiUsage"})
     public void saveConfig() {
         try {
-            @SuppressWarnings("UnstableApiUsage") TypeToken<GeneralConfig> type = TypeToken.of(GeneralConfig.class);
+            TypeToken<GeneralConfig> type = TypeToken.of(GeneralConfig.class);
             node.setValue(type, this.config);
             this.loader.save(node);
         } catch (Exception e) {

@@ -4,6 +4,7 @@ import io.github.polymeta.common.adapter.IPixelmonAdapter;
 import io.github.polymeta.common.config.GeneralConfigManager;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.config.ConfigManager;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.DyeColors;
 import org.spongepowered.api.data.type.HandTypes;
@@ -24,10 +25,8 @@ import java.util.List;
 
 public class PartyGUI
 {
-    private static boolean isReady = false;
-
-    private static Inventory inventory;
-    private static ItemStack border = ItemStack.builder()
+    private final Inventory inventory;
+    private static final ItemStack border = ItemStack.builder()
             .itemType(ItemTypes.STAINED_GLASS_PANE)
             .add(Keys.DYE_COLOR, DyeColors.RED)
             .add(Keys.DISPLAY_NAME, Text.EMPTY)
@@ -35,19 +34,38 @@ public class PartyGUI
 
     private static IPixelmonAdapter adapter;
     private static Object plugin;
+    private static GeneralConfigManager cMan;
+
+    private final Player player;
+
+    public PartyGUI(Player player)
+    {
+        this.player = player;
+
+        inventory = Inventory.builder()
+                .of(InventoryArchetypes.CHEST)
+                .property(InventoryTitle.PROPERTY_NAME, InventoryTitle.of(
+                        TextSerializers.FORMATTING_CODE.deserialize(cMan.getConfig().guiTitle)))
+                .listener(ClickInventoryEvent.class, e -> e.setCancelled(true))
+                .listener(ClickInventoryEvent.Primary.class, PartyGUI::fireClickEvent)
+                .build(plugin);
+        placeBorder();
+
+        List<ItemStack> pokeParty = adapter.getPartyAsItem(this.player);
+        for(int i = 0; i < pokeParty.size(); i++)
+        {
+            if(pokeParty.get(i) == null)
+                continue;
+
+            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(i >= 4 ? i + 2 : i + 1, 1))).set(pokeParty.get(i));
+        }
+    }
 
     public static void initGUI(@NonNull Object _plugin, @NonNull GeneralConfigManager _cMan, @NonNull IPixelmonAdapter _adapter)
     {
         plugin = _plugin;
         adapter = _adapter;
-        inventory = Inventory.builder()
-                .of(InventoryArchetypes.CHEST)
-                .property(InventoryTitle.PROPERTY_NAME, InventoryTitle.of(TextSerializers.FORMATTING_CODE.deserialize(_cMan.getConfig().guiTitle)))
-                .listener(ClickInventoryEvent.class, e -> e.setCancelled(true))
-                .listener(ClickInventoryEvent.Primary.class, PartyGUI::fireClickEvent)
-                .build(plugin);
-        placeBorder();
-        isReady = true;
+        cMan = _cMan;
     }
 
     private static void fireClickEvent(ClickInventoryEvent.Primary event)
@@ -69,29 +87,19 @@ public class PartyGUI
                 //feels hacky, but should work
                 adapter.toggleShinyInSlot(player, clicked);
                 //we know they have an item as that's how the inventory gets opened
-                player.getItemInHand(HandTypes.MAIN_HAND).get().setQuantity(player.getItemInHand(HandTypes.MAIN_HAND).get().getQuantity() - 1);
+                player.getItemInHand(HandTypes.MAIN_HAND).get().setQuantity(
+                        player.getItemInHand(HandTypes.MAIN_HAND).get().getQuantity() - 1);
                 player.closeInventory();
             }).submit(plugin);
         }
     }
 
-    public static void OpenInventoryOnPlayer(@NonNull Player _player)
+    public void OpenInventoryOnPlayer()
     {
-        if(!isReady)
-            return;
-
-        List<ItemStack> pokeParty = adapter.getPartyAsItem(_player);
-        for(int i = 0; i < pokeParty.size(); i++)
-        {
-            if(pokeParty.get(i) == null)
-                continue;
-
-            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(i >= 4 ? i + 2 : i + 1, 1))).set(pokeParty.get(i));
-        }
-        _player.openInventory(inventory);
+        this.player.openInventory(inventory);
     }
 
-    private static void placeBorder()
+    private void placeBorder()
     {
         //top row
         inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(0, 0))).set(border);

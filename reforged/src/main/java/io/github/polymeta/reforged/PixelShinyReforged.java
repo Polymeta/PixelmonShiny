@@ -24,7 +24,7 @@ import org.spongepowered.api.text.Text;
         name = "PixelmonShiny Reforged",
         description = "Turn your pokemon shiny with an item!",
         authors = {"Polymeta/BlackSpirit"},
-        version = "1.0.1",
+        version = "1.0.2",
         dependencies = @Dependency(id = "pixelmon"))
 public class PixelShinyReforged
 {
@@ -42,6 +42,8 @@ public class PixelShinyReforged
     {
         configManager = new GeneralConfigManager(configLoader);
         Sponge.getEventManager().registerListeners(this, new SpongeListener(configManager));
+        if(!configManager.LoadConfig())
+            logger.error("FAILED TO LOAD CONFIG");
 
         PartyGUI.initGUI(this, configManager, new ReforgedAdapter());
 

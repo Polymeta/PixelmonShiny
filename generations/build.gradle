@@ -22,8 +22,9 @@ minecraft {
 }
 
 shadowJar {
-    archiveName = "PixelmonShiny-Generations-8.2.3-${project.version}.jar"
+    archiveName = "PixelmonShiny-Generations-8.4.2-${project.version}.jar"
     exclude 'PixelmonGenerations*.jar'
+    exclude 'pixelmongenerations*.jar'
 }
 
 repositories {

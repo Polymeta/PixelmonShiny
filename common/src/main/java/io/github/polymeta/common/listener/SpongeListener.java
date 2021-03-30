@@ -37,7 +37,7 @@ public class SpongeListener
                             if(this.isLoreSame(lore, cManager.getConfig().itemLore))
                             {
                                 //type, name and lore match, so now we open GUI!
-                                PartyGUI.OpenInventoryOnPlayer(player);
+                                new PartyGUI(player).OpenInventoryOnPlayer();
                                 event.setCancelled(true);
                             }
                         });
@@ -61,7 +61,7 @@ public class SpongeListener
                             if(this.isLoreSame(lore, cManager.getConfig().itemLore))
                             {
                                 //type, name and lore match, so now we open GUI!
-                                PartyGUI.OpenInventoryOnPlayer(player);
+                                new PartyGUI(player).OpenInventoryOnPlayer();
                                 event.setCancelled(true);
                             }
                         });

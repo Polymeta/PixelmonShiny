@@ -24,7 +24,7 @@ import org.spongepowered.api.text.Text;
         name = "PixelmonShiny Generations",
         description = "Turn your pokemon shiny with an item!",
         authors = {"Polymeta/BlackSpirit"},
-        version = "1.0.1",
+        version = "1.0.2",
         dependencies = @Dependency(id = "pixelmon"))
 public class PixelShinyGenerations
 {
@@ -42,6 +42,9 @@ public class PixelShinyGenerations
     {
         configManager = new GeneralConfigManager(configLoader);
         Sponge.getEventManager().registerListeners(this, new SpongeListener(configManager));
+        if(!configManager.LoadConfig())
+            logger.error("FAILED TO LOAD CONFIG");
+
         PartyGUI.initGUI(this, configManager, new GenerationsAdapter());
 
         CommandSpec giveItem = CommandSpec.builder()
