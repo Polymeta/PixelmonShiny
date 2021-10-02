@@ -33,12 +33,13 @@ repositories {
         name 'sponge-repo'
         url 'https://repo.spongepowered.org/maven'
     }
+    maven { url = "http://maven.pixelmongenerations.com/repository/maven-releases/"}
 }
 
 dependencies {
     compile project(':common')
     shadow 'org.spongepowered:spongeapi:7.2.0'
-    compile fileTree(dir: 'libs', include: '*.jar')
+    implementation 'com.pixelmongenerations:main-mod:8.5.0'
 }
 
 reobf {

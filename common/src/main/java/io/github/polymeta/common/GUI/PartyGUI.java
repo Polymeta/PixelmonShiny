@@ -4,7 +4,6 @@ import io.github.polymeta.common.adapter.IPixelmonAdapter;
 import io.github.polymeta.common.config.GeneralConfigManager;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.config.ConfigManager;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.DyeColors;
 import org.spongepowered.api.data.type.HandTypes;
@@ -59,6 +58,18 @@ public class PartyGUI
 
             inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(i >= 4 ? i + 2 : i + 1, 1))).set(pokeParty.get(i));
         }
+        if(pokeParty.get(0) != null)
+            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(1, 1))).set(pokeParty.get(0));
+        if(pokeParty.get(1) != null)
+            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(2, 1))).set(pokeParty.get(0));
+        if(pokeParty.get(2) != null)
+            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(3, 1))).set(pokeParty.get(0));
+        if(pokeParty.get(3) != null)
+            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(5, 1))).set(pokeParty.get(0));
+        if(pokeParty.get(4) != null)
+            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(6, 1))).set(pokeParty.get(0));
+        if(pokeParty.get(5) != null)
+            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(7, 1))).set(pokeParty.get(0));
     }
 
     public static void initGUI(@NonNull Object _plugin, @NonNull GeneralConfigManager _cMan, @NonNull IPixelmonAdapter _adapter)

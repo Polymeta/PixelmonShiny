@@ -20,8 +20,11 @@ public class ReforgedAdapter implements IPixelmonAdapter
     public List<ItemStack> getPartyAsItem(Player player)
     {
         PlayerPartyStorage storage = Pixelmon.storageManager.getParty(player.getUniqueId());
-        return storage.getTeam().stream()
+        return Arrays.stream(storage.getAll())
                 .map(pokemon -> {
+                    if(pokemon == null)
+                        return ItemStack.empty();
+
                     net.minecraft.item.ItemStack photo = ItemPixelmonSprite.getPhoto(pokemon);
                     ItemStack item = (ItemStack)(Object)photo;
                     item.offer(Keys.DISPLAY_NAME, Text.of(pokemon.getSpecies().name));

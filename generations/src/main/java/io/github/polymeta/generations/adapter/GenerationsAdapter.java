@@ -23,9 +23,12 @@ public class GenerationsAdapter implements IPixelmonAdapter
     public List<ItemStack> getPartyAsItem(Player player)
     {
         PlayerStorage storage = PixelmonStorage.pokeBallManager.getPlayerStorageFromUUID(player.getUniqueId()).orElseThrow(NullPointerException::new);
-        return storage.getTeam().stream()
-                .map(NBTLink::new)
-                .map(nbtLink -> {
+        return Arrays.stream(storage.partyPokemon)
+                .map(nbt -> {
+                    if(nbt == null)
+                        return ItemStack.empty();
+
+                    NBTLink nbtLink = new NBTLink(nbt);
                     net.minecraft.item.ItemStack photo = ItemPixelmonSprite.getPhoto(nbtLink);
                     ItemStack item = (ItemStack)(Object)photo;
                     item.offer(Keys.DISPLAY_NAME, Text.of(nbtLink.getSpecies().name));
