@@ -51,25 +51,19 @@ public class PartyGUI
         placeBorder();
 
         List<ItemStack> pokeParty = adapter.getPartyAsItem(this.player);
-        for(int i = 0; i < pokeParty.size(); i++)
-        {
-            if(pokeParty.get(i) == null)
-                continue;
 
-            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(i >= 4 ? i + 2 : i + 1, 1))).set(pokeParty.get(i));
-        }
         if(pokeParty.get(0) != null)
             inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(1, 1))).set(pokeParty.get(0));
         if(pokeParty.get(1) != null)
-            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(2, 1))).set(pokeParty.get(0));
+            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(2, 1))).set(pokeParty.get(1));
         if(pokeParty.get(2) != null)
-            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(3, 1))).set(pokeParty.get(0));
+            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(3, 1))).set(pokeParty.get(2));
         if(pokeParty.get(3) != null)
-            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(5, 1))).set(pokeParty.get(0));
+            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(5, 1))).set(pokeParty.get(3));
         if(pokeParty.get(4) != null)
-            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(6, 1))).set(pokeParty.get(0));
+            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(6, 1))).set(pokeParty.get(4));
         if(pokeParty.get(5) != null)
-            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(7, 1))).set(pokeParty.get(0));
+            inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotPos.of(7, 1))).set(pokeParty.get(5));
     }
 
     public static void initGUI(@NonNull Object _plugin, @NonNull GeneralConfigManager _cMan, @NonNull IPixelmonAdapter _adapter)

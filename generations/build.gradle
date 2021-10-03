@@ -25,6 +25,7 @@ shadowJar {
     archiveName = "PixelmonShiny-Generations-8.4.2-${project.version}.jar"
     exclude 'PixelmonGenerations*.jar'
     exclude 'pixelmongenerations*.jar'
+    exclude 'main-mod*.jar'
 }
 
 repositories {
