@@ -3,7 +3,6 @@ package io.github.polymeta.common.adapter;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ public interface IPixelmonAdapter
 
     /**
      * @param player The player whose party we are looking at
-     * @param clickedItem The itemstack that got clicked to determine which pokemon gets changed
+     * @param partySlot the pokemon slot to toggle
      */
-    void toggleShinyInSlot(Player player, ItemStackSnapshot clickedItem);
+    void toggleShinyInSlot(Player player, int partySlot);
 }

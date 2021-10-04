@@ -15,6 +15,7 @@ import org.spongepowered.api.item.inventory.InventoryArchetypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.item.inventory.property.InventoryTitle;
+import org.spongepowered.api.item.inventory.property.SlotIndex;
 import org.spongepowered.api.item.inventory.property.SlotPos;
 import org.spongepowered.api.item.inventory.query.QueryOperationTypes;
 import org.spongepowered.api.text.Text;
@@ -89,8 +90,19 @@ public class PartyGUI
 
             //prevents sponge warning when closing inventory without delay
             Sponge.getScheduler().createTaskBuilder().delayTicks(3L).execute(() -> {
-                //feels hacky, but should work
-                adapter.toggleShinyInSlot(player, clicked);
+                //we hardcode the indicies of the party pokemon here anyways, so now we rely on ints instead of names
+                //slotindex: 10, 11, 12, 14, 15, 16
+                //partyIndex: 0, 1,   2,  3,  4,  5
+                //difference:10, 10, 10, 11, 11, 11
+                SlotIndex slotIndex = event.getSlot()
+                        .orElseThrow(IllegalStateException::new)
+                        .getProperty(SlotIndex.class, SlotIndex.getDefaultKey(SlotIndex.class))
+                        .orElseThrow(IllegalAccessError::new);
+                if(slotIndex.getValue() == null){
+                    throw new IllegalArgumentException(); // IDE complains about potential null here
+                }
+                int index = slotIndex.getValue();
+                adapter.toggleShinyInSlot(player, index > 13 ? index - 11 : index - 10); // we check if its in one half or another and then reduce it to party index
                 //we know they have an item as that's how the inventory gets opened
                 player.getItemInHand(HandTypes.MAIN_HAND).get().setQuantity(
                         player.getItemInHand(HandTypes.MAIN_HAND).get().getQuantity() - 1);

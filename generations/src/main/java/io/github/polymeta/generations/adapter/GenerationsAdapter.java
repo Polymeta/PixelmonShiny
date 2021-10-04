@@ -2,7 +2,6 @@ package io.github.polymeta.generations.adapter;
 
 import com.pixelmongenerations.common.entity.pixelmon.stats.links.NBTLink;
 import com.pixelmongenerations.common.item.ItemPixelmonSprite;
-import com.pixelmongenerations.core.network.EnumUpdateType;
 import com.pixelmongenerations.core.storage.NbtKeys;
 import com.pixelmongenerations.core.storage.PixelmonStorage;
 import com.pixelmongenerations.core.storage.PlayerStorage;
@@ -10,7 +9,6 @@ import io.github.polymeta.common.adapter.IPixelmonAdapter;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -44,15 +42,9 @@ public class GenerationsAdapter implements IPixelmonAdapter
     }
 
     @Override
-    public void toggleShinyInSlot(Player player, ItemStackSnapshot clicked)
+    public void toggleShinyInSlot(Player player, int partySlot)
     {
         PlayerStorage storage = PixelmonStorage.pokeBallManager.getPlayerStorageFromUUID(player.getUniqueId()).orElseThrow(NullPointerException::new);
-        storage.getTeam().stream()
-                .filter(nbtTagCompound -> nbtTagCompound.getString(NbtKeys.NAME).equalsIgnoreCase(clicked.get(Keys.DISPLAY_NAME).get().toPlain()))
-                .findFirst()
-                .ifPresent(nbtTagCompound -> {
-                    nbtTagCompound.setBoolean(NbtKeys.IS_SHINY, !nbtTagCompound.getBoolean(NbtKeys.IS_SHINY));
-                    storage.updateClient(nbtTagCompound, EnumUpdateType.Stats);
-                });
+        storage.partyPokemon[partySlot].setBoolean(NbtKeys.IS_SHINY, !storage.partyPokemon[partySlot].getBoolean(NbtKeys.IS_SHINY));
     }
 }

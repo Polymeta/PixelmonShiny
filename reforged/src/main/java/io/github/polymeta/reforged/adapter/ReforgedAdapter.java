@@ -7,7 +7,6 @@ import io.github.polymeta.common.adapter.IPixelmonAdapter;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -40,12 +39,9 @@ public class ReforgedAdapter implements IPixelmonAdapter
     }
 
     @Override
-    public void toggleShinyInSlot(Player player, ItemStackSnapshot clicked)
+    public void toggleShinyInSlot(Player player, int partySlot)
     {
         PlayerPartyStorage storage = Pixelmon.storageManager.getParty(player.getUniqueId());
-        storage.getTeam().stream()
-                .filter(pokemon -> Text.of(pokemon.getSpecies().name).equals(clicked.get(Keys.DISPLAY_NAME).orElse(Text.EMPTY)))
-                .findFirst()
-                .ifPresent(pokemon -> pokemon.setShiny(!pokemon.isShiny()));
+        storage.getAll()[partySlot].setShiny(!storage.getAll()[partySlot].isShiny());
     }
 }
